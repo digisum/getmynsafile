@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href='http://fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet' type='text/css'>
+<link href="cssConsole.console.css" type="text/css" rel="stylesheet">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script src="cssConsole.min.js"></script>
+<style>
+body{
+background: #000;
+font-family: 'Source Code Pro', sans-serif;
+font-size: 12px;
+}
+
+.container {
+margin: 50px auto;
+height: 600px;
+width: 950px;
+position:relative;
+border:1px solid #fefefe;
+}
+
+#input {
+width: 910px;
+display:inline-block;
+position:relative;
+float:left;
+}
+
+.bottom {
+position:absolute;
+bottom:5px;
+width: 100%;
+}
+
+.label {
+width: 30px;
+position: relative;
+left: 15px;
+top:5px;
+color: #fefefe;
+float:left;
+}
+
+.console {
+position:absolute;
+bottom:32px;
+overflow:hidden;
+}
+
+.white{
+color: #fefefe;
+}
+
+.blue{
+color: #81bbd5;
+}
+
+.line {
+margin-left: 15px;
+margin-bottom:2px;
+}
+
+.margin {
+margin-left: 40px;
+margin-bottom:2px;
+white-space: pre; 
+}
+
+div#main
+{width:100%; height:100%; background:url(../images/background-blur.jpg) top left no-repeat;}
+div#main img.background
+{width:100%; height:100%;}
+
+div#main div#shareBlock
+{height:32px; width:300px; position: absolute; bottom:10px; left:50%; margin-left:-150px; text-align:center;}
+div#main div#shareBlock a
+{display:inline-block; width:32px; height:32px; overflow:hidden;}
+
+div#main div#shareBlock a#facebook
+{background:url(images/facebook.png) top left no-repeat;}
+div#main div#shareBlock a#twitter
+{background:url(images/twitter.png) top left no-repeat;}
+div#main div#shareBlock a#friendfeed
+{background:url(images/friendfeed.png) top left no-repeat;}
+div#main div#shareBlock a#blogger
+{background:url(images/blogger.png) top left no-repeat;}
+div#main div#shareBlock a#myspace
+{background:url(images/myspace.png) top left no-repeat;}
+div#main div#shareBlock a#delicious
+{background:url(images/delicious.png) top left no-repeat;}
+div#main div#shareBlock a#digg
+{background:url(images/digg.png) top left no-repeat;}
+div#main div#shareBlock a#reddit
+{background:url(images/reddit.png) top left no-repeat;}
+
+</style>
+<meta charset=utf-8 />
+<title>CSS console</title>
+</head>
+<body>
+	<div class="container">
+		<div class="console">
+			<div class="line white">NSA PRISM AUXILLARY DATABASE VERSION 2.0.1    |    FOR APPROVED 3RD PARTY USAGE ONLY</div>
+		</div>
+		<div class="bottom">
+			<div class="label">></div>
+			<div id="input"></div>
+		</div>
+	</div>  
+<script>
+$(document).ready(function() {
+    $('#input').find('input').focus();
+});
+
+
+$('#input').cssConsole({
+	inputName:'console',
+	charLimit: 60,
+	onEnter: function(){
+		addLine("> "+$('#input').find('input').val());
+		execCommand($('#input').find('input').val());
+		$('#input').cssConsole('reset');	
+		$('#input').find('input').focus();
+	}
+});
+
+var lineLimit = 26;
+
+$('.container').on('click', function() {
+	$('#input').find('input').focus();
+});
+
+function addLine(input, style, color) {
+		if($('.console div').length==lineLimit) {
+			$('.console div').eq(0).remove();
+		}
+		style = typeof style !== 'undefined' ? style : 'line';
+		color = typeof color !== 'undefined' ? color : 'white';
+		$('.console').append('<div class="'+style+' '+color+'">'+input+'</div>');
+}
+
+function execCommand(command){
+    if ( commands[command] ) {
+      return commands[command]();
+    } else {
+      addLine("Command '" + command + "' was not found.");
+    }   
+}
+
+function geoip()
+{
+	penisbird = [];
+	
+	penisscroll = 0;
+	timer = 0;
+	
+	$.getJSON('http://freegeoip.net/json/', function(data) {
+		$.each(data, function(key, val) {
+			penisbird.push('' + key + ': ' + val);
+		});
+
+	timer = setInterval(function ()
+		{
+			l = penisbird[penisscroll];
+			if (!l)
+			{
+				clearTimeout(timer);
+				return  false;
+			}
+		    addLine(penisbird[penisscroll], 'margin', 'blue');
+		    penisscroll++;
+		}, 100);
+	});
+}
+
+function penisbird()
+{
+	penisbird = [];
+
+	$.get('data/penisbird.txt', function(data) {
+		penisbird = data.split('\n');
+	}, 'text');
+
+	penisscroll = 0;
+	timer = 0;
+
+	timer = setInterval(function ()
+		{
+			l = penisbird[penisscroll];
+			if (!l)
+			{
+				clearTimeout(timer);
+				geoip();
+				return  false;
+			}
+		    addLine(penisbird[penisscroll], 'margin', 'blue');
+		    penisscroll++;
+		}, 20);
+}
+
+penisbird();
+    
+</script>
+  
+  
+<div id="shareBlock">
+<a href="http://www.facebook.com/sharer.php?u=http://make-everything-ok.com/&amp;t=The+magic+button+—+Make+Everything+OK" title="add to Facebook" target="_blank" id="facebook" style="background-position: 0% 0%;"><img src="images/facebook.png" style="opacity: 0;"></a>
+<a href="http://twitter.com/share?text=The+magic+button+—+Make+Everything+OK&amp;url=http://make-everything-ok.com/" title="add in Twitter" target="_blank" id="twitter" style="background-position: 0% 0%;"><img src="images/twitter.png" style="opacity: 0;"></a>
+<a href="http://www.friendfeed.com/share?title=The+magic+button+—+Make+Everything+OK+http://make-everything-ok.com/" title="add to Friendfeed" target="_blank" id="friendfeed" style="background-position: 0% 0%;"><img src="images/friendfeed.png" style="opacity: 0;"></a>
+<a href="http://www.blogger.com/blog_this.pyra?t&amp;u=http://make-everything-ok.com&amp;n=The+magic+button+—+Make+Everything+OK" title="add to Blogger" target="_blank" id="blogger" style="background-position: 0% 0%;"><img src="images/blogger.png" style="opacity: 0;"></a>
+<a href="javascript:void(window.open('http://www.myspace.com/Modules/PostTo/Pages/?u='+encodeURIComponent(document.location.toString()),'ptm','height=450,width=550').focus())" title="add to myspace" id="myspace" style="background-position: 0% 0%;">
+    <img src="images/myspace.png" alt="Share on Myspace" style="opacity: 0;"></a>
+<a href="http://www.delicious.com/save" title="add to delicious" onclick="window.open('http://www.delicious.com/save?v=5&amp;noui&amp;jump=close&amp;url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title), 'delicious','toolbar=no,width=550,height=550'); return false;" id="delicious" style="background-position: 0% 0%;"><img src="images/delicious.png" style="opacity: 0;"></a>
+<a href="http://digg.com/submit?url=make-everything-ok.com" title="add to digg" target="_blank" id="digg" style="background-position: 0% 0%;"><img src="images/digg.png" style="opacity: 0;"></a>
+<a href="http://www.reddit.com/r/WTF/submit" onclick="window.location = 'http://www.reddit.com/r/WTF/submit?url=' + encodeURIComponent(window.location); return false" target="_blank" id="reddit" title="add to reddit" style="background-position: 0% 0%;"><img src="images/reddit.png" style="opacity: 0;"></a>
+</div>
+  
+</body>
+</html>
