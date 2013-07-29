@@ -1,0 +1,4 @@
+getmynsafile
+============
+
+nonsense
